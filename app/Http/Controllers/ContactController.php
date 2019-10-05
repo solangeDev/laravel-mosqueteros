@@ -39,34 +39,52 @@ class ContactController extends Controller
     //ContactRequest $request
     public function store(ContactRequest $request)
     {
-        $request->validate([
-            "name"=>"required",
-            "email"=>"required|email",
-            "date" => "required"
-       ]);
-       $objContact = new Contact();
-       $user_id = \Auth::user()->id; //id usuario session
-       $objContact->name = $request->name;
-       $objContact->email = $request->email;
-       $objContact->birthday = $request->date;
-       $objContact->user_id = $user_id;
-       //Query Builder
-       /*$objContact->insert([
-        "name"=>$request->name,
-        "email"=>$request->email,
-        "birthday"=>$request->date,
-        "user_id"=>$user_id
-       ]);*/
-       if($request->picture){
-        $name_file = $this->saveFile($request->picture);
-        if(!$name_file){
-            dd("error");
-        }else{
-            $objContact->image = $name_file;
-        }
-       }
-       $objContact->save();
-       dd($objContact);
+        
+        try {
+           
+            $request->validate([
+                "name"=>"required",
+                "email"=>"required|email",
+                "date" => "required"
+           ]);
+           //$request->session()->flush();
+           //variables de session
+           /*\Session::put("hola","mundo");
+           $request->session()->put("hola","hola");*/
+           $objContact = new Contact();
+           $user_id = \Auth::user()->id; //id usuario session
+           $objContact->name = $request->name;
+           $objContact->email = $request->email;
+           $objContact->birthday = $request->date;
+           $objContact->user_id = $user_id;
+           //Query Builder
+           /*$objContact->insert([
+            "name"=>$request->name,
+            "email"=>$request->email,
+            "birthday"=>$request->date,
+            "user_id"=>$user_id
+           ]);*/
+           if($request->picture){
+            $name_file = $this->saveFile($request->picture);
+            if(!$name_file){
+                \Session::flash("msj","Error cargando la imagen");
+                \Session::flash("error","alert-danger");
+                return redirect()->back();
+            }else{
+                $objContact->image = $name_file;
+            }
+           }
+           if($objContact->save()){
+            \Session::flash("msj","Guardado con exito");
+            \Session::flash("error","alert-success");
+            return redirect()->back();
+           }
+        } catch (\Throwable $th) {
+            \Session::flash("msj",$th->getMessage());
+            \Session::flash("error","alert-danger");
+            return redirect()->back();
+        }     
+
     }
 
     public function saveFile($file){

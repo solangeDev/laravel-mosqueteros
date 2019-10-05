@@ -8,13 +8,14 @@
                 <div class="card-header">Dashboard</div>
 
                 <div class="card-body">
-                    @if (session('status'))
+                    {{-- @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    You are logged in!
+                    {{dd(session()->all())}}
+                    You are logged in! --}}
+                    @include('contact.list')
                 </div>
             </div>
         </div>
