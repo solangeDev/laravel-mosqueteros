@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Carbon\Carbon;
 
 class CheckAge
 {
@@ -15,9 +16,12 @@ class CheckAge
      */
     public function handle($request, Closure $next)
     {
-        dd("calcular la dad el usuario");
-        //aqui
-        //return $next($request); quiere decir que si esa permitido entrar a la ruta
-        return $next($request);
+        
+        $edad = Carbon::createFromDate(\Auth::user()->birthday)->age;
+        if ($edad <= 17) {
+            return abort(401);
+        }else{
+            return $next($request);
+        }
     }
 }

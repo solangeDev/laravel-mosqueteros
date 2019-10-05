@@ -37,9 +37,9 @@ class ContactController extends Controller
      * @return \Illuminate\Http\Response
      */
     //ContactRequest $request
-    public function store(Request $request)
+    public function store(ContactRequest $request)
     {
-       $request->validate([
+        $request->validate([
             "name"=>"required",
             "email"=>"required|email",
             "date" => "required"
@@ -57,8 +57,25 @@ class ContactController extends Controller
         "birthday"=>$request->date,
         "user_id"=>$user_id
        ]);*/
+       if($request->picture){
+        $name_file = $this->saveFile($request->picture);
+        if(!$name_file){
+            dd("error");
+        }else{
+            $objContact->image = $name_file;
+        }
+       }
        $objContact->save();
        dd($objContact);
+    }
+
+    public function saveFile($file){
+        $name_file=time().'_'.$file->getClientOriginalName(); 
+        if(\Storage::disk('contacts')->put($name_file,file_get_contents($file->getRealPath()))){
+            return $name_file;
+        }else{
+            return false;
+        }
     }
 
     /**

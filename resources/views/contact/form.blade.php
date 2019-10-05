@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">Contacto</div>
                 <div class="card-body">
-                <form method="POST" action="{{route("contact_save")}}">
+                <form enctype="multipart/form-data" method="POST" action="{{route("contact_save")}}" >
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">Nombre</label>
                                 <div class="col-md-6">
