@@ -15,4 +15,8 @@ class Contact extends Model
     protected $fillable = [
         'name', 'email','birthday', 'id', 'user_id'
     ];
+
+    function user(){
+        return $this->belongsTo('App\User',"user_id");
+    }
 }

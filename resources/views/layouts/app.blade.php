@@ -18,6 +18,13 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        .imagen{
+            border-radius: 50% !important;
+            width: 80px !important;
+            height: 80px !important;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
