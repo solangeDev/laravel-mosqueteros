@@ -27,7 +27,11 @@ class ContactController extends Controller
      */
     public function create()
     {
-        return view("contact.form");
+        $data=(object) array(
+            "route"=>"contact_save",
+            "user"=>array()
+        );
+        return view("contact.form",["data"=>$data]);
     }
 
     /**
@@ -114,8 +118,14 @@ class ContactController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
+    {   
+        $objContact = new Contact();
+        $contact = $objContact::where("id",$id)->get()->all();
+        $data=(object) array(
+            "route"=>"contact_update",
+            "user"=>(!empty($contact))?$contact[0]:$contact
+        );
+        return view("contact.form",["data"=>$data]);
     }
 
     /**
@@ -127,7 +137,7 @@ class ContactController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        dd($id);
     }
 
     /**

@@ -12,11 +12,11 @@
                             {{session()->get("msj")}}
                         </div>
                       @endif
-                <form enctype="multipart/form-data" method="POST" action="{{route("contact_save")}}" >
+                    <form enctype="multipart/form-data" method="POST" action="{{!empty($data->user)?route($data->route,$data->user->id):route($data->route)}}" >
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">Nombre</label>
                                 <div class="col-md-6">
-                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="">
+                                <input id="name" value="{{!empty($data->user->name)?$data->user->name:""}}"  type="text" class="form-control  @error('name') is-invalid @enderror" name="name" value="">
                                     @if ($errors->has('name'))
                                         <span class="invalid-feedback" style="display:block!important;">
                                             <strong>{{ $errors->first('name') }}</strong>
@@ -27,7 +27,7 @@
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">Email</label>
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control" name="email" value="">
+                                    <input id="email" type="email" value="{{!empty($data->user->email)?$data->user->email:""}}"class="form-control" name="email" value="">
                                     @if ($errors->has('email'))
                                         <span class="invalid-feedback" style="display:block!important;">
                                             <strong>{{ $errors->first('email') }}</strong>
@@ -38,7 +38,7 @@
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">Fecha de Nacimiento</label>
                                 <div class="col-md-6">
-                                    <input id="date" type="date" class="form-control" name="date" value="">
+                                    <input id="date" type="date" class="form-control" name="date" value="{{!empty($data->user->birthday)?$data->user->birthday:""}}" value="">
                                     @if ($errors->has('date'))
                                         <span class="invalid-feedback" style="display:block!important;">
                                             <strong>{{ $errors->first('date') }}</strong>
@@ -51,7 +51,7 @@
                                 <div class="col-md-6">
                                     <div class="input-group mb-3">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="file" aria-describedby="file" name="picture">
+                                            <input value="{{!empty($data->user->image)?$data->user->image:""}}" type="file" class="custom-file-input" id="file" aria-describedby="file" name="picture">
                                             <label class="custom-file-label" for="file">Choose file</label>
                                         </div>
                                     </div>
@@ -71,6 +71,9 @@
                             </div>
                         </div>
                         @csrf
+                        @if($data->user->id)
+                            <input type="hidden" name="_method" value="PUT">
+                        @endif
                     </form>
                 </div> 
             </div>

@@ -16,16 +16,22 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if(!empty($data->all()))
                             @foreach ($data as $detail)
                                 <tr>
                                     <th scope="row">
-                                    <img style="" src="contacts/{{(empty($detail->image))?"default.jpeg":$detail->image}}" class="imagen" alt="">
+                                        <img style="" src="contacts/{{(empty($detail->image))?"default.jpeg":$detail->image}}" class="imagen" alt="">
                                     </th>
                                     <td>{{$detail->name}}</td>
                                     <td>{{$detail->email}}</td>
-                                    <td></td>
+                                    <td>
+                                    <a href="contact/edit/{{$detail->id}}" class="btn btn-primary">Modificar</a>
+                                    </td>
                                 </tr>
                             @endforeach
+                            @else
+                                <tr colspan="4"><td>No hay registros</td></tr>
+                            @endif
                         </tbody>
                     </table>          
                 </div>
