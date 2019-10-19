@@ -71,7 +71,7 @@
                             </div>
                         </div>
                         @csrf
-                        @if($data->user->id)
+                        @if(!empty($data->user))
                             <input type="hidden" name="_method" value="PUT">
                         @endif
                     </form>
