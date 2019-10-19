@@ -5,11 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Contact;
 use App\Http\Requests\ContactRequest;
+use Illuminate\Support\Facades\Mail;
+use \App\Mail\mailContact;
 
 //use Auth;
 
 class ContactController extends Controller
 {
+    
+    public function sendMail($objContact){
+        
+        Mail::to($objContact->email,$objContact->name)->send(new mailContact($objContact));
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -79,6 +87,7 @@ class ContactController extends Controller
             }
            }
            if($objContact->save()){
+            $this->sendMail($objContact);
             \Session::flash("msj","Guardado con exito");
             \Session::flash("error","alert-success");
             return redirect()->back();
