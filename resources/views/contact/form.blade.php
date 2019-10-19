@@ -7,11 +7,7 @@
             <div class="card">
                 <div class="card-header">Contacto</div>
                 <div class="card-body">
-                     @if(session()->get("msj")!="")
-                        <div class="alert {{session()->get("error")}}" role="alert">
-                            {{session()->get("msj")}}
-                        </div>
-                      @endif
+                    @include('contact.error')
                     <form enctype="multipart/form-data" method="POST" action="{{!empty($data->user)?route($data->route,$data->user->id):route($data->route)}}" >
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">Nombre</label>

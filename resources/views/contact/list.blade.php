@@ -1,4 +1,5 @@
 
+@include('contact.error')
 <a href="contact" class="btn btn-success mb-2">Agregar Contacto</a>
 <div class="container">
     <div class="row justify-content-center">
@@ -26,6 +27,11 @@
                                     <td>{{$detail->email}}</td>
                                     <td>
                                     <a href="contact/edit/{{$detail->id}}" class="btn btn-primary">Modificar</a>
+                                    <form action="{{route("contact_delete",$detail->id)}}" method="post">
+                                        <button class="btn btn-danger">Eliminar</button>
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        @csrf
+                                    </form>
                                     </td>
                                 </tr>
                             @endforeach

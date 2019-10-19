@@ -137,7 +137,49 @@ class ContactController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($id);
+      try {
+        $objContact = new Contact();
+        $objContact = $objContact::findOrFail($id);
+        $objContact->name = $request->name;
+        $objContact->email = $request->email;
+        $objContact->birthday = $request->date;
+        if(!empty($request->picture)){
+            if($objContact->image){
+                try {
+                    $this->deleteImg($objContact->image);
+                } catch (\Throwable $th) {
+                    \Session::flash("msj",$th->getMessage());
+                    \Session::flash("error","alert-danger");
+                    return redirect()->back();
+                }
+            }
+            try {
+                $name_file = $this->saveFile($request->picture);
+                $objContact->image = $name_file;
+            } catch (\Throwable $th) {
+                \Session::flash("msj","Error cargando la imagen");
+                \Session::flash("error","alert-danger");
+                return redirect()->back();
+            }
+        }
+        if($objContact->save()){
+             \Session::flash("msj","Guardado con exito");
+             \Session::flash("error","alert-success");
+             return redirect()->back();
+        }
+      } catch (\Throwable $th) {
+        \Session::flash("msj",$th->getMessage());
+        \Session::flash("error","alert-danger");
+        return redirect()->back();
+      }
+    }
+
+    public function deleteImg($nombre_imagen){
+        if(\Storage::disk('contacts')->delete($nombre_imagen)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
@@ -148,6 +190,29 @@ class ContactController extends Controller
      */
     public function destroy($id)
     {
-        //
+       try {
+        $objContact = new Contact();
+        $objContact = $objContact::find($id);
+        if(!empty($objContact->image)){
+         try {
+             $this->deleteImg($objContact->image);
+         } catch (\Throwable $th) {
+             \Session::flash("msj",$th->getMessage());
+             \Session::flash("error","alert-danger");
+             return redirect()->back();
+         }
+        }
+        if($objContact->delete()){
+         \Session::flash("msj","Eliminado con exito");
+         \Session::flash("error","alert-success");
+         return redirect()->back();
+        }
+       } catch (\Throwable $th) {
+        \Session::flash("msj",$th->getMessage());
+        \Log::error("eliminar registro".' '.$th->getMessage());
+        \Session::flash("error","alert-danger");
+        return redirect()->back();
+       }
+       
     }
 }

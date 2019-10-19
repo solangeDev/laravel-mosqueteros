@@ -24,6 +24,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/contact/edit/{id}', 'ContactController@edit')->name('contact-edit')->where('id','^[0-9]+$');
     Route::post('/contact/save', 'ContactController@store')->name('contact_save');
     Route::put('/contact/update/{id}', 'ContactController@update')->name('contact_update')->where('id','^[0-9]+$');
+    Route::delete('/contact/delete/{id}', 'ContactController@destroy')->name('contact_delete')->where('id','^[0-9]+$');
 });
 
 Auth::routes();
