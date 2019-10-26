@@ -61,9 +61,15 @@
                          <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <a href="/home" class="btn btn-danger" >Atras</a>
-                                <button type="submit" class="btn btn-primary">
-                                    Guardar
-                                </button>
+                                @if(!empty($data->user))
+                                    @can('update',$data->user)
+                                        <button type="submit" class="btn btn-primary">
+                                            Modificar
+                                        </button>
+                                    @endcan
+                                @else
+                                    <button type="submit" class="btn btn-success">Guardar</button>
+                                @endif            
                             </div>
                         </div>
                         @csrf

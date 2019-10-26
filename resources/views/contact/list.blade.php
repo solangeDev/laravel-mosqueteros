@@ -1,6 +1,7 @@
 
 @include('contact.error')
 <a href="contact" class="btn btn-success mb-2">Agregar Contacto</a>
+<a href="contact/pdf" class="btn btn-warning mb-2">Lista de Contactos</a>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">

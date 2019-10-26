@@ -1,0 +1,10 @@
+10 Nov max 12:00pm 
+Proyecto: 
+App Laravel 
+- CRUD (trabajar relaciones polimorficas)
+- Middleware (1)
+- Policies (1)
+- Exportar PDF 
+
+- Montar en un repo (publico) el proyecto y compartir la url 
+- Grabar pantalla explicando cada punto de proyecto 

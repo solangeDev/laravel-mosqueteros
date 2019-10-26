@@ -130,6 +130,7 @@ class ContactController extends Controller
     {   
         $objContact = new Contact();
         $contact = $objContact::where("id",$id)->get()->all();
+        //ContactController.php$this->authorize('update',$contact);
         $data=(object) array(
             "route"=>"contact_update",
             "user"=>(!empty($contact))?$contact[0]:$contact
